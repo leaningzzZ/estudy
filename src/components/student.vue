@@ -8,12 +8,16 @@
             :action="uploadHost" 
             :headers="{Token:info.token}"
             :data="{id:record.assignment_id}"
+            :showUploadList="false"
             @change="changeUpload">
             <a-button icon="upload">上传</a-button>
             </a-upload>
+         <a v-if="record.work" :href="`${downloadHost}?id=${record.work.id}&type=student`">
+            <a-button  icon="download">下载</a-button>
+         </a>
       </template>
       <template slot="operation2">
-        <a href="">111</a>
+
       </template>
     </a-table>
   </div>
@@ -27,13 +31,21 @@ export default {
       ...mapState("user",["info"])
   },
   methods:{
-      changeUpload(info){
-          console.log(info)
+      changeUpload(info){ //学生上传文件
+          if(info.file.status==="done"&&info.file.response.data){
+            this.$message.info("上传成功")
+          }else if(info.file.status==="error"){
+            this.$notification.error({
+              message:"上传失败",
+              description:info.file.response.errorMessage
+            })
+          }
       }
   },
   data() {
     return {
-        uploadHost:Host+"/student/upload",
+        uploadHost:Host+"/student/upload",//获取学生作业信息
+        downloadHost:Host+"/student/download",//学生下载作业
       columns: [
         {
           title: "课程",
@@ -53,15 +65,17 @@ export default {
         {
           title: "操作",
           scopedSlots: {
-            customRender: "operation1" //渲染组件
+            customRender: "operation" //渲染组件
           }
         },
         {
-          title: "操作2",   
+          title: "状态",
           scopedSlots: {
-            customRender: "operation2" //渲染组件
+            customRender(text,record){
+              console.log(record)
+            }
           }
-        }
+        }, 
       ]
     };
   }
