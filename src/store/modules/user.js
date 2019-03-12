@@ -12,6 +12,7 @@ const mutations = {
     login(state,data){
         state.loggedIn=true;
         state.info=data;
+        api.defaults.headers.common["Token"]=state.info.token
         // localStorage.setItem("eStudy",JSON.stringify({loggedIn:true,info:JSON.stringify(data)}))
     },
     updateToken(state,token){
@@ -20,6 +21,7 @@ const mutations = {
     logout(state){
         state.info={};
         state.loggedIn=false;
+        api.defaults.headers.common["Token"]=""
     }
 }
 const actions = {

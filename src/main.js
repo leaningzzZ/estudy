@@ -13,9 +13,9 @@ Vue.use(Antd)
 // 引入验证
 import Veevalidate,{Validator} from "vee-validate";
 import zh_CN from "vee-validate/dist/locale/zh_CN"
-Vue.use(Veevalidate);
+Vue.use(Veevalidate);//表单验证
 Vue.$notification=notification;
-Validator.localize('zh_CN',zh_CN)
+Validator.localize('zh_CN',zh_CN)//提示语言
 
 new Vue({
   store,
