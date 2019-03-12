@@ -10,7 +10,13 @@
           <a-modal :visible="Boolean(revisingWork)" @cancel="revisingWork = false" :footer="null">
             <form action>
               <a-form-item label="课程">
-                <a-input v-model="revisingForm.org_id" autosize></a-input>
+                <a-select v-model="revisingForm.org_id"
+                v-validate="'required'" data-vv-as="课程"
+                :class="{ error: errors.has('org_id') }"
+              >
+                <a-select-option v-for="(org, index) of teacher.orgs" :key="`org_${index}`"
+                  :value="org.id">{{ org.full_name }}</a-select-option>
+              </a-select>
               </a-form-item>
               <a-form-item label="作业名称">
                 <a-textarea v-model="revisingForm.name" autosize></a-textarea>
@@ -70,7 +76,7 @@ export default {
   data() {
     return {
       revisingForm: {
-        org_id: 0,
+        org_id: "",
         name: "",
         start_time: "",
         end_time: ""
@@ -93,7 +99,7 @@ export default {
       return this.$store.state.user.loggedIn;
     },
     info() {
-      this.$store.state.user.info.full_name = "刘喆";
+      // this.$store.state.user.info.full_name = "刘喆";
       return this.$store.state.user.info;
     },
     isTeacher() {
@@ -120,19 +126,23 @@ export default {
       this.revisingForm.start_time = dateString[0];
       this.revisingForm.end_time = dateString[1];
     },
-    save(){
+    save() {
       console.log(this.revisingForm);
-      const form ={
+      const form = {
         org_id: this.revisingForm.org_id,
-        name:this.revisingForm.name,
-        start_time:this.revisingForm.start_time,
-        end_time:this.revisingForm.end_time,
-      }
-      api.post("/teacher/createAssignment",form).then(data=>{
-        console.log(data)
-      }).finally(()=>{
-          this.revisingWork=false;
+        name: this.revisingForm.name,
+        start_time: this.revisingForm.start_time,
+        end_time: this.revisingForm.end_time
+      };
+      api
+        .post("/teacher/createAssignment", form)
+        .then(data => {
+          console.log(data);
+          this.loadDetails();
         })
+        .finally(() => {
+          this.revisingWork = false;
+        });
     },
     log() {
       this.loggedIn = !this.loggedIn;

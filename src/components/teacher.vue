@@ -174,13 +174,13 @@ export default {
     }
   },
   methods: {
-    removeAssignment(id) {
-      api.post("/teacher/deleteAssignment", { id }).then(result => {
-        const index = this.teacher.assignment.findIndex(
-          assignment => assignment.assignment_id === id
-        );
-        this.teacher.assignment.splice(index, 1);
-        this.$message.info("删除成功")
+    removeAssignment(assignmentId) {
+      api.post('/teacher/deleteAssignment', { id: assignmentId }).then(resp => {
+        const index = this.teacher.assignments.findIndex(assignment => assignment.assignment_id == assignmentId);
+        if (index != -1) {
+          this.teacher.assignments.splice(index, 1);
+          this.$message.info('作业已删除');
+        }
       });
     },
     save(){
