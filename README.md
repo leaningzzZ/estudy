@@ -27,6 +27,7 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
-
+教师账号：luwei luwei
+学生账号：V1002 V1002
 vuex-persistedstate插件实现自动登陆
 ant-design for vue
