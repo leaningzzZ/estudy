@@ -45,9 +45,6 @@
             <span class="label">{{student.stats.finished}}个作业待提交</span>
           </div>
         </div>
-        <a href="http://vipgit.chanke.xyz" target="_blank">
-          <a-button class="vcenter" icon="home">代码仓库</a-button>
-        </a>
         <a-button class="vcenter" @click="$store.dispatch('user/logout')" icon="logout">退出</a-button>
       </div>
     </a-layout-header>
